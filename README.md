@@ -105,7 +105,7 @@ extension UIKitSDKViewController: TamaraCheckoutDelegate {
 }
 ```
 
-## 3. Add `About Tamara` modal view
+## 3. Add `About Tamara` modal view (Deprecated) 
 
 To make customers understand what is `tamara` and how it works, we also provide this modal view so you can use to show it whenever, wherever you want in your application.
 
