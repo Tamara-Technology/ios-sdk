@@ -1,4 +1,0 @@
-target 'Example' do
-  use_frameworks!
-  pod 'TamaraSDK', :path => '../TamaraSDK'
-end

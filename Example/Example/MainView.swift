@@ -26,11 +26,11 @@ struct MainView: View {
     @State private var isVip = "false"
     @State private var dataResult = ""
     @State private var dataError = ""
-    @State private var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhY2NvdW50SWQiOiJmY2ZiYzk3ZC0wYmIwLTRkYTItYmY3ZS02MjhlOTRkMzM0M2EiLCJ0eXBlIjoibWVyY2hhbnQiLCJzYWx0IjoiNzQxMmZkZjI1NGZiMWJhNmY5N2FmMmY1N2YxYzA1MDYiLCJpYXQiOjE2Nzc4MzIzNzQsImlzcyI6IlRhbWFyYSJ9.WVn2sf3LrW_YI3c2pNrbcOa--tRDAVm9p2GOBRdn7d671QIuqPvDgI9Gz7MNzBirUDnVLATCrL9uvMxDY_1OzXe3Sn1Gawckw-NE2EfL_Kjnl8GcNqwMcMvcin9XGxGRhbDDusgFCFzxaiEYae3DpA-pO0TpyQbEXl49ZLT4a9sEW75Taxc2ofZ-DJ_ciblImk1aJ6p9YhQowvzAVHz6yG-ZRfosxc96t8BK15bVTvTLnT9hzEnCqifqKO7vSu1e2mKEG8lC46pZHSr-ZpvfjSytrMX2QAZuXqxtlvbg3aRZeGiJ-SKVcbRdlId1wSRTZ5lntrw3pyrLS1dpxcfSOA"
-    @State private var apiUrl = "https://api-sandbox.tamara.co"
-    @State private var publishKey = "d36c6279-90c2-4239-b4e2-2c91bfda0fe4"
-    @State private var pushUrl = "https://tamara.co/pushnotification"
-    @State private var notificationToken = "aeae44a2-5f57-475e-a384-0e9b8a802326"
+    @State private var token = MERCHANT_TOKEN
+    @State private var apiUrl = HOST
+    @State private var publishKey = WebViewParagrams.publicKey.rawValue
+    @State private var pushUrl = "https://example.co/pushnotification"
+    @State private var notificationToken = ""
     @State private var isSandbox = "true"
     
     init(cartPage: Binding<[String: String]>, productPage: Binding<[String: String]>) {
@@ -115,27 +115,54 @@ struct MainView: View {
                 // Fallback on earlier versions
             }
             
-            RoundedButton(label: "CartPage", buttonAction: {
+            if #available(iOS 15.0, *) {
+                            RoundedButton(label: "Product", buttonAction: {
+            //                    self.appState.currentPage = .Product
+                                isProduct.toggle()
+                            })
+                            .padding(.top, 20).alert("Product", isPresented: $isProduct) {
+                                TextField("Language", text:$languageCP)
+                                TextField("Country", text: $countryCP)
+                                TextField("public key", text: $publishKeyCP)
+                                TextField("Amount", text: $amountCP)
+                                Button("OK", action: genProduct)
+                            } message: {
+                            }.alert(dataResultCP, isPresented: $isShowPr) {
+                                Button("OK", role: .cancel) { }
+                            }
+                        } else {
+                            // Fallback on earlier versions
+                        }
+                        
+                        if ((product["script"]?.isEmpty) != nil) {
+                                        ZStack {
+                                            WebViewWrapper(html: product["script"] ?? "")
+                                                .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                                                .padding(.top, 20)
+                                                .allowsHitTesting(false)
+                                            
+                                            Color.clear
+                                                .contentShape(Rectangle())
+                                                .onTapGesture {
+                                                    self.appState.currentPage = .Product
+                                                }
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        }
+                                    }
+
+            
+            RoundedButton(label: "Tamara Checkout Widget", buttonAction: {
                 self.appState.currentPage = .CartPage
             })
                 .padding(.top, 20)
             
             if !scriptCartPage.isEmpty {
                 WebViewWrapper(html: scriptCartPage)
-                    .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                    .frame(height: 100)
                     .padding(.top, 20)
             }
             
-            RoundedButton(label: "Product", buttonAction: {
-                self.appState.currentPage = .Product
-            })
-                .padding(.top, 20)
             
-            if !scriptProduct.isEmpty {
-                WebViewWrapper(html: scriptProduct)
-                    .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-                    .padding(.top, 20)
-            }
         }
         .navigationBarHidden(true)
         .navigationBarItems(trailing: HStack{})

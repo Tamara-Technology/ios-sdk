@@ -52,7 +52,7 @@ extension TamaraWidgetVC {
         uI += "      <script defer type=\"text/javascript\" src=\""+srcScript+"\"></script>\n"
         uI += "\n"
         uI += "      \n"
-        uI += "      <tamara-widget type=\"tamara-summary\" amount=\""+amountS+"\""
+        uI += "      <tamara-widget type=\"tamara-summary\" config='{\"badgePosition\":\"\",\"showExtraContent\":\"full\",\"hidePayInX\":false}' amount=\""+amountS+"\""
         uI += "inline-type=\""+inline+"\"></tamara-widget>"
         
         return uI
