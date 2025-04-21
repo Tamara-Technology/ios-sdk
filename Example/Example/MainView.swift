@@ -115,42 +115,6 @@ struct MainView: View {
                 // Fallback on earlier versions
             }
             
-            if #available(iOS 15.0, *) {
-                            RoundedButton(label: "Product", buttonAction: {
-            //                    self.appState.currentPage = .Product
-                                isProduct.toggle()
-                            })
-                            .padding(.top, 20).alert("Product", isPresented: $isProduct) {
-                                TextField("Language", text:$languageCP)
-                                TextField("Country", text: $countryCP)
-                                TextField("public key", text: $publishKeyCP)
-                                TextField("Amount", text: $amountCP)
-                                Button("OK", action: genProduct)
-                            } message: {
-                            }.alert(dataResultCP, isPresented: $isShowPr) {
-                                Button("OK", role: .cancel) { }
-                            }
-                        } else {
-                            // Fallback on earlier versions
-                        }
-                        
-                        if ((product["script"]?.isEmpty) != nil) {
-                                        ZStack {
-                                            WebViewWrapper(html: product["script"] ?? "")
-                                                .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-                                                .padding(.top, 20)
-                                                .allowsHitTesting(false)
-                                            
-                                            Color.clear
-                                                .contentShape(Rectangle())
-                                                .onTapGesture {
-                                                    self.appState.currentPage = .Product
-                                                }
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                        }
-                                    }
-
-            
             RoundedButton(label: "Tamara Checkout Widget", buttonAction: {
                 self.appState.currentPage = .CartPage
             })
@@ -158,10 +122,20 @@ struct MainView: View {
             
             if !scriptCartPage.isEmpty {
                 WebViewWrapper(html: scriptCartPage)
-                    .frame(height: 100)
+                    .frame(height: 350)
                     .padding(.top, 20)
             }
             
+            RoundedButton(label: "Product Widget", buttonAction: {
+                 self.appState.currentPage = .Product
+             })
+                 .padding(.top, 20)
+ 
+             if !scriptProduct.isEmpty {
+                 WebViewWrapper(html: scriptProduct)
+                     .frame(height: 200)
+                     .padding(.top, 20)
+             }
             
         }
         .navigationBarHidden(true)
