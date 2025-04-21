@@ -20,8 +20,8 @@ extension TamaraWidgetVC {
     func renderWidgetCartPage(language: String, country: String, publicKey: String,
                               amount: Double, completion: @escaping (AnyObject?, Error?, Int) -> Void) -> Void{
         DispatchQueue.main.async {
-            let content:NSDictionary = ["script" :self.generateUI(language: language, country: country, publicKey: publicKey, amount: amount, inline: "3"),
-                                        "url" : self.generateURL(language: language, country: country, publicKey: publicKey, amount: amount, inline: "3")]
+            let content:NSDictionary = ["script" :self.generateUI(language: language, country: country, publicKey: publicKey, amount: amount, inline: "6"),
+                                        "url" : self.generateURL(language: language, country: country, publicKey: publicKey, amount: amount, inline: "6")]
             completion(content , nil, 200)
         }
     }
