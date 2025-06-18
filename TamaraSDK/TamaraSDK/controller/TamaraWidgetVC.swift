@@ -41,7 +41,7 @@ extension TamaraWidgetVC {
         if (!TamaraSDKPayment.shared.isSandbox) {
             srcScript = "https://cdn.tamara.co/widget-v2/tamara-widget.js"
         }
-        let amountS = String(format: "%.0f", amount)
+        let amountS = String(format: "%.2f", amount)
         var uI: String = "<script>\n"
         uI += "        window.tamaraWidgetConfig = {\n"
         uI += "            lang: \""+language+"\",\n"
@@ -60,7 +60,7 @@ extension TamaraWidgetVC {
     
     func generateURL(language: String, country: String, publicKey: String,
                      amount: Double, inline: String)-> String {
-        let amountS = String(format: "%.0f", amount)
+        let amountS = String(format: "%.2f", amount)
         var url = "https://cdn-sandbox.tamara.co/widget-v2/tamara-widget.html"
         
         if (!TamaraSDKPayment.shared.isSandbox) {
